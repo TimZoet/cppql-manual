@@ -1,0 +1,25 @@
+% TODO: Initialization of existing tables. sqlite_ tables are ignored.
+% TODO: Getting tables.
+
+\subsection{Creating Tables}
+\label{section:tables:create}
+
+New tables can be created through the \code{createTable} method of the database. It returns a reference to a new \code{Table} instance. The table has a method to create new \code{Column}s. In turn, this object has some methods to set e.g. not null contraints. None of these functions actually run any SQL statements. This is done once you call the table's \code{commit} method.  A full example is shown in Listing~\ref{lst:tables:create}.
+
+\lstinputlisting[caption={Creating a table.}, label={lst:tables:create}]{snippets/create_table.cpp}
+
+Since the \code{createColumn} and \code{set} methods all return a reference to the column, you can also chain calls like in Listing~\ref{lst:tables:chain}.
+
+\lstinputlisting[caption={Chaining column calls.}, label={lst:tables:chain}]{snippets/column_method_chain.cpp}
+
+Adding a foreign key column is straightforward. Just replace the type parameter by another column object. See Listing~\ref{lst:tables:fk}.
+
+\lstinputlisting[caption={Creating a foreign key.}, label={lst:tables:fk}]{snippets/column_fk.cpp}
+
+% TODO: Adding/registering tables if they were not created through the API.
+
+\subsection{Deleting Tables}
+\label{section:tables:delete}
+
+% TODO: Deleting tables.
+

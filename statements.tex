@@ -1,0 +1,44 @@
+%TODO: Statement class is wrapper around sqlite3_stmt. No subclasses, can handle all types of queries. If it doesn't support one of the API functions, just get() the internal handle.
+
+\subsection{Binding Parameters}
+\label{section:statement:bind}
+
+There are multiple ways in which you can bind parameters to a statement.
+%TODO: Indices start at 0.
+
+Firstly, there are the \code{bindInt}, \code{bindDouble}, \code{bindText}, \code{bindNull}, etc. methods. These directly map to the \code{sqlite3\_bind\_x} functions. For text and blobs there are two additional methods \code{bindStatic} and \code{bindTransient} that correspond to calling the text and blob binding functions with \code{SQLITE\_STATIC} or \code{SQLITE\_TRANSIENT} instead of a destructor. Listing~\ref{lst:statement:bind} shows the usage of several of the bind methods.
+
+\lstinputlisting[caption={Binding several parameters.}, label={lst:statement:bind}]{snippets/bind.cpp}
+
+Secondly, there is a template \code{bind} method that takes an arbitrary number of parameters. For each parameter, the method will try to find the appropriate bind function to call, \marginlabel{See Table~\ref{table:statement:mapping} for mapping.}possibly casting the parameter to another type. If no bind function exists for any one parameter, there will be a compile error. In order to bind text and blobs, you must wrap a pointer in a \code{Text} or \code{Blob} object. Listing~\ref{lst:statement:bind_template} shows an example that does almost the same as the previous one. The only difference is that the ownership of the text data is passed to the statement, hence why a destructor is needed.
+
+\lstinputlisting[caption={Template bind method.}, label={lst:statement:bind_template}]{snippets/bind_template.cpp}
+
+\begin{table}[H]
+\caption{Mapping of input types and bind functions.}\label{table:statement:mapping}
+\centering
+\begin{tabular}{| p{20mm} | p{40mm} | p{32mm} |}
+Input Type & Conversion & Bind Function \\
+\hline\hline
+int32 & none & \code{bindInt} \\
+int64 & none & \code{bindInt64} \\
+double & none & \code{bindDouble} \\
+nullptr\_t & none & \code{bindNull} \\
+\hline
+uint32 & \code{bit\_cast<int32>} & \code{bindInt} \\
+(u)int(8 $\vert$ 16) & \code{static\_cast<int32>} & \code{bindInt} \\
+uint64 & \code{bit\_cast<int64>} & \code{bindInt64} \\
+float & \code{static\_cast<double>} & \code{bindDouble} \\
+\hline
+Text & none & \code{bindText} \\
+StaticText & none & \code{bindStaticText} \\
+TransientText & none & \code{bindTransientText} \\
+Blob & none & \code{bindBlob} \\
+StaticBlob & none & \code{bindStaticBlob} \\
+TransientBlob & none & \code{bindTransientBlob} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Getting Results}
+\label{section:statement:get}

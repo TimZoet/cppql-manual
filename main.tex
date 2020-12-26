@@ -1,0 +1,57 @@
+\documentclass[twoside,a4paper,smallborder=true]{refart}
+\input{packages.tex}
+\input{defs.tex}
+\title{cppql}
+\author{Tim Zoet}
+\date{}
+% \emergencystretch1em  %??
+\pagestyle{headings}
+\makeindex 
+\setcounter{tocdepth}{2}
+\begin{document}
+\maketitle
+\input{abstract.tex}
+\tableofcontents
+\newpage
+
+\section{Introduction}
+\label{section:introduction}
+\input{introduction.tex}
+\newpage
+
+\section{Database}
+\label{section:database}
+\input{database.tex}
+\newpage
+
+\section{Tables}
+\label{section:tables}
+\input{tables.tex}
+\newpage
+
+\section{Statements}
+\label{section:statements}
+\input{statements.tex}
+\newpage
+
+\section{Error Handling}
+\label{section:errors}
+%\input{statements.tex}
+\newpage
+% Exceptions vs error codes. If program can continue without too many issues, error code (functions that wrap sql api calls return an actual error code, others booleans). Otherwise, exception. Look at return types and noexcept to determine which is which.
+% getErrorMessage()
+
+\section{Iterators}
+\label{section:iterators}
+%\input{statements.tex}
+\newpage
+
+\section{Query Generation Functions}
+\label{section:gen}
+%\input{statements.tex}
+\newpage
+
+\bibliographystyle{bibliography/eg-alpha-doi} 
+\bibliography{bibliography/references} 
+\printindex
+\end{document}
