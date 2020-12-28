@@ -1,0 +1,12 @@
+\code{cppql} is a thin C++ wrapper around the sqlite C API. It contains several classes to manage the lifetimes of database connections (see Section~\ref{section:database}) and statements (see Section~\ref{section:statements}). A database keeps track of the tables it contains (see Section~\ref{section:tables}). Whenever possible, invalid operations return sqlite error codes instead of throwing C++ exceptions (see Section~\ref{section:errors}).
+% TODO: Reference utilities.
+
+cppql does not wrap every single C function. You might therefore find yourself having to use the internal handles to call a C function that is not supported by the C++ layer. It also does not do e.g. exhaustive type checking when constructing queries.
+
+\subsection{Acknowledgements}
+\label{section:introduction:acknowledgements}
+
+cppql currently relies on the following libraries:
+\begin{itemize}
+	\item \marginlabel{\href{https://www.sqlite.org}{link}} sqlite\cite{sqlite}.
+\end{itemize}
