@@ -4,8 +4,8 @@ stmt.bind(
     10,
     4.55,
     sql::Text{
-        txt,
-        6, 
-        [](void* p){ delete[] static_cast<const char*>(p); }
+        .data = txt,
+        .size = 6, 
+        .destructor = [](void* p){ delete[] static_cast<const char*>(p); }
     }
 );

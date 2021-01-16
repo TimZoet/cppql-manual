@@ -16,6 +16,9 @@ Adding a foreign key column is straightforward. Just replace the type parameter 
 
 \lstinputlisting[caption={Creating a foreign key.}, label={lst:tables:fk}]{snippets/column_fk.cpp}
 
+\subsection{Registering Tables}
+\label{section:tables:register}
+
 % TODO: Adding/registering tables if they were not created through the API.
 
 \subsection{Deleting Tables}
@@ -23,3 +26,13 @@ Adding a foreign key column is straightforward. Just replace the type parameter 
 
 % TODO: Deleting tables.
 
+\subsection{Typed Tables}
+\label{section:tables:typed}
+
+The \code{Table} class does not offer much in terms of type safety or extensive interfaces. For that, there is the \code{TypedTable} class. It can be constructed by passing it a normal table and allows you to specify a static type for each column. Listing~\ref{lst:tables:typed} shows how to create one using the table that was created in Listing~\ref{lst:tables:create}.
+
+\lstinputlisting[caption={Creating a typed table.}, label={lst:tables:typed}]{snippets/create_typed_table.cpp}
+
+Since sqlite's columns are very flexibly typed, you too have some options when it comes to column types. For example, the first column does not need to be of type \code{int64}. Any integral type will do. Similarly, the last column type is specified to be an array of doubles, but can be of any pointer type, since sqlite just stores raw BLOBs.
+
+Section~\ref{section:hli} explains how to use the typed tables to construct type safe queries.
