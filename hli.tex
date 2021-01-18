@@ -4,8 +4,9 @@
 \subsection{Expressions}
 \label{section:hli:expression}
 
-% Binding values: value vs pointers.
+% Binding values: value (fixed) vs pointers (dynamic).
 % Order by: -col1 + col2 becomes ORDER BY col1 DESC, col2 ASC;
+% How do text and blobs work?
 
 \subsection{Insert}
 \label{section:hli:insert}
@@ -27,9 +28,18 @@ A single insert object reuses the same prepared statement each time a row is add
 \subsection{Delete}
 \label{section:hli:delete}
 
+To remove rows from a table, you can construct a \code{Delete} object from a typed table. This objects holds a statement of the form \code{DELETE FROM <table> WHERE <expr>}. See Listing~\ref{lst:hli:delete_create}.
+
+\lstinputlisting[caption={Creating a delete statement.}, label={lst:hli:delete_create}]{snippets/delete_create.cpp}
+
+The first parameter is the expression by which to filter. The second parameter indicates whether expression parameters should be bound immediately upon creation. After construction, the object can be invoked one or more times. See Listing~\ref{lst:hli:delete_call}.
+
+\lstinputlisting[caption={Deleting multiple rows.}, label={lst:hli:delete_call}]{snippets/delete_call.cpp}
+
+There are two overloads of \code{operator()}. The first does not take any parameters and runs the delete statement without (re)binding any parameters. The second accepts a boolean parameter which, if true, will result in all parameters being bound before running the delete. If the filter expression does not have dynamic parameters it is best to bind upon construction and then invoke the parameterless function. This will result in the best performance.
+
 \subsection{Select}
 \label{section:hli:select}
-
 
 % TODO: select, selectOne, selectN, selectAll
 % TODO: Blobs.
@@ -41,9 +51,6 @@ It is also possible to use custom return types, instead of just tuples. To do so
 Since the \code{Select} class has a \code{begin} and \code{end} method, you can also directly construct e.g. a \code{std::vector} from it. See Listing~\ref{lst:hli:select_to_container}.
 
 \lstinputlisting[caption={Constructing a vector from a select object.}, label={lst:hli:select_to_container}]{snippets/select_to_container.cpp}
-
-
-
 
 
 \subsection{Count}
