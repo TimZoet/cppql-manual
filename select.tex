@@ -1,0 +1,23 @@
+To select rows in a table, you can construct a \code{Select} object from a typed table. This object holds a statement of the form \newline \code{SELECT <cols> FROM <table> WHERE <expr>}. See Listing~\ref{lst:select:create}.
+
+\lstinputlisting[caption={Creating a select statement.}, label={lst:select:create}]{snippets/select_create.cpp}
+
+The only parameter is the expression by which to filter. After construction, the object can be iterated over one or more times to retrieve the results. See Listing~\ref{lst:select:iterate}.
+
+\lstinputlisting[caption={Retrieving select results.}, label={lst:select:iterate}]{snippets/select_iterate.cpp}
+
+The first time the select object is iterated over (or more precisely, the \code{begin} method is called), a statement is prepared and the parameters are bound. Every time after that, the statement is reset and the parameters are rebound.
+
+\subsection{Custom Return Types}
+\label{section:select:custom}
+
+It is also possible to use custom return types, instead of just tuples. To do so, pass your type as the first template parameter to the \code{select} method. The only requirement on the type is that it has a constructor that takes all selected column values. See Listing~\ref{lst:select:custom_type}.
+
+\lstinputlisting[caption={Retrieve results as custom type.}, label={lst:select:custom_type}]{snippets/select_custom_type.cpp}
+
+\subsection{Containers}
+\label{section:select:container}
+
+Since the \code{Select} class has a \code{begin} and \code{end} method, you can also directly construct e.g. a \code{std::vector} from it. See Listing~\ref{lst:select:to_container}.
+
+\lstinputlisting[caption={Constructing a vector from a select object.}, label={lst:select:to_container}]{snippets/select_to_container.cpp}

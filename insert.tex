@@ -1,0 +1,13 @@
+To insert new rows into a table, you can construct an \code{Insert} object from a typed table. This object holds a statement of the form \code{INSERT INTO <table> VALUES <vals>}. See Listing~\ref{lst:insert:create}.
+
+\lstinputlisting[caption={Creating an insert statement.}, label={lst:insert:create}]{snippets/insert_create.cpp}
+
+The insert object is callable with either separate values for each column, or a tuple. See Listing~\ref{lst:insert:call}.
+
+\lstinputlisting[caption={Inserting new rows.}, label={lst:insert:call}]{snippets/insert_call.cpp}
+
+To insert the default value for a column, or to have e.g. primary keys properly auto increment, simply pass a \code{nullptr} instead of a value. See Listing~\ref{lst:insert:default}.
+
+\lstinputlisting[caption={Passing a nullptr to use default value for primary key.}, label={lst:insert:default}]{snippets/insert_default.cpp}
+
+A single insert object reuses the same prepared statement each time a row is added. It can be called any number of times. Multiple insert objects do not share this statement. To limit the number of times new statements are prepared, reuse the same insert object as much as you can.

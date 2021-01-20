@@ -19,12 +19,8 @@ Adding a foreign key column is straightforward. Just replace the type parameter 
 \subsection{Registering Tables}
 \label{section:tables:register}
 
-% TODO: Adding/registering tables if they were not created through the API.
-
 \subsection{Deleting Tables}
 \label{section:tables:delete}
-
-% TODO: Deleting tables.
 
 \subsection{Typed Tables}
 \label{section:tables:typed}
@@ -35,4 +31,4 @@ The \code{Table} class does not offer much in terms of type safety or extensive 
 
 Since sqlite's columns are very flexibly typed, you too have some options when it comes to column types. For example, the first column does not need to be of type \code{int64}. Any integral type will do. Similarly, the last column type is specified to be an array of doubles, but can be of any pointer type, since sqlite just stores raw BLOBs.
 
-Section~\ref{section:hli} explains how to use the typed tables to construct type safe queries.
+%Section~\ref{section:hli} explains how to use the typed tables to construct type safe queries.
