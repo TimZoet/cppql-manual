@@ -2,11 +2,13 @@ To select rows in a table, you can construct a \code{Select} object from a typed
 
 \lstinputlisting[caption={Creating a select statement.}, label={lst:select:create}]{snippets/select_create.cpp}
 
-The only parameter is the expression by which to filter. After construction, the object can be iterated over one or more times to retrieve the results. See Listing~\ref{lst:select:iterate}.
+The first parameter is the expression by which to filter. The second parameter indicates whether expression parameters should be bound immediately upon creation. After construction, the object can be iterated over one or more times to retrieve the results. See Listing~\ref{lst:select:iterate}.
 
 \lstinputlisting[caption={Retrieving select results.}, label={lst:select:iterate}]{snippets/select_iterate.cpp}
 
-The first time the select object is iterated over (or more precisely, the \code{begin} method is called), a statement is prepared and the parameters are bound. Every time after that, the statement is reset and the parameters are rebound.
+Iterating over the select object will first reset the statement. If you want to (re)bind parameters, call \code{operator(true)} before iteration. Since this operator returns a reference to the select object itself, you can e.g. use it in a range based for loop: \code{for (auto row : select(true))\{...\}}.
+
+Some notes on the internal implementation details. Calling the \code{begin} method will run \code{sqlite3\_step} and return an iterator. Each time the iterator is incremented, \code{sqlite3\_step} is called. The \code{end} method returns a dummy iterator value. The end of the sequence is determined using the return code of \code{sqlite3\_step}.
 
 \subsection{Custom Return Types}
 \label{section:select:custom}
