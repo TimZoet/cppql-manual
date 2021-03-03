@@ -1,0 +1,13 @@
+\makeglossaries
+\newglossaryentry{cppql}{name={cppql},description={The cppql library}}
+\newglossaryentry{sqlite}{name={sqlite},description={sqlite}}
+\newglossaryentry{statement}{name={statement},description={Sqlite statement}}
+
+% Only enable links for first occurrence of term.
+\renewcommand*{\glslinkcheckfirsthyperhook}{%
+	\ifglsused{\glslabel}%
+	{%
+		\setkeys{glslink}{hyper=false}%
+	}%
+	{}%
+}

@@ -1,12 +1,19 @@
-\code{cppql} is a thin C++ wrapper around the sqlite C API. It contains several classes to manage the lifetimes of database connections (see Section~\ref{section:database}) and statements (see Section~\ref{section:statements}). A database keeps track of the tables it contains (see Section~\ref{section:tables}). Whenever possible, invalid operations return sqlite error codes instead of throwing C++ exceptions (see Section~\ref{section:errors}).
-% TODO: Reference utilities.
+\gls{cppql} is a C++ library that wraps around the \gls{sqlite} C API. It offers multiple levels of abstraction.
 
-cppql does not wrap every single C function. You might therefore find yourself having to use the internal handles to call a C function that is not supported by the C++ layer. It also does not do e.g. exhaustive type checking when constructing queries.
+At the lowest level, it merely provides two classes to handle the lifetimes of database connections and \marginlabel{See Section~\ref{section:database} and \ref{section:statements}.}\gls{statement}s. You call all the C functions yourself with the handles you \code{get} from the objects. Obviously, this is not very interesting.
+
+At a higher level the various classes expose a number of methods corresponding to the most common functions from the C API. Additionally, \marginlabel{See Section~\ref{section:tables}.}creating tables is made a little bit easier through a more object-oriented approach. You'll still be writing most of your own SQL statements, though.
+
+At the highest level a fully type safe, C++ only interface is available. To select rows from a table, you write typical C++ expressions with objects representing columns, e.g. \code{table.select(col1 > 10)}, and iterate over the results. Similar functionality is available for deletions, inserts, etc.
+
+\gls{cppql} does not wrap every single C function. You might therefore find yourself having to use the internal handles to call more obscure C functions that are not supported by the C++ layers. It also does not do e.g. exhaustive type checking when constructing string based queries, instead returning \gls{sqlite} \marginlabel{See Section~\ref{section:errors}.}error codes.
+
+For build instructions, see Section~\ref{section:build}.
 
 \subsection{Acknowledgements}
 \label{section:introduction:acknowledgements}
 
-cppql currently relies on the following libraries:
+\gls{cppql} currently relies on the following libraries:
 \begin{itemize}
-	\item \marginlabel{\href{https://www.sqlite.org}{link}} sqlite\cite{sqlite}.
+	\item \marginlabel{\href{https://www.sqlite.org}{link}} \gls{sqlite}\cite{sqlite}.
 \end{itemize}

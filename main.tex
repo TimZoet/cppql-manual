@@ -7,6 +7,7 @@
 % \emergencystretch1em  %??
 \pagestyle{headings}
 \makeindex 
+\input{glossary.tex}
 \setcounter{tocdepth}{2}
 \begin{document}
 \maketitle
@@ -29,14 +30,14 @@
 \input{database.tex}
 \newpage
 
-\section{Tables}
-\label{section:tables}
-\input{tables.tex}
-\newpage
-
 \section{Statements}
 \label{section:statements}
 \input{statements.tex}
+\newpage
+
+\section{Tables}
+\label{section:tables}
+\input{tables.tex}
 \newpage
 
 \section{Error Handling}
@@ -64,7 +65,11 @@
 \input{select.tex}
 \newpage
 
+\printglossaries
+\newpage
+
 \bibliographystyle{bibliography/eg-alpha-doi} 
 \bibliography{bibliography/references} 
 \printindex
+
 \end{document}
