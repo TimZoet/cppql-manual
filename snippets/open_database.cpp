@@ -5,7 +5,7 @@ auto db = sql::Database::open(file);
 // Create a new database.
 auto db = sql::Database::create(file);
 // Open or create a database.
-auto db = sql::Database::openOrCreate(file);
+auto [db, created] = sql::Database::openOrCreate(file);
 
 // Pass a connection handle directly to the constructor.
 sqlite3* handle = ...;
