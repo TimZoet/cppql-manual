@@ -71,5 +71,10 @@ If you wish to verify a column type before retrieving the value, call the \code{
 
 \lstinputlisting[caption={Getting a column's type.}, label={lst:statement:get_column_type}]{snippets/get_column_type.cpp}
 
-%TODO: Getting blobs.
-%TODO: Template method.
+Blob values can be retrieved as (vectors of) arbitrary types. See Listing~\ref{lst:statement:get_column_blob}. %TODO: What kind of exceptions are thrown when sizes do not match?
+
+\lstinputlisting[caption={Getting blob columns.}, label={lst:statement:get_column_blob}]{snippets/get_column_blob.cpp}
+
+On top of the separate methods there is also a template method that returns columns by value. Furthermore, it will perform some integer casts when necessary, similar to what the \code{bind} method does. See Listing~\ref{lst:statement:get_column_template}.
+
+\lstinputlisting[caption={Template column method.}, label={lst:statement:get_column_template}]{snippets/get_column_template.cpp}
