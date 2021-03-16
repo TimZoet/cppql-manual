@@ -1,5 +1,3 @@
-struct Foo{...};
-
 auto stmt = db->createStatement(
     "SELECT (intCol, floatCol, blobCol) FROM myTable;", 
     true);

@@ -1,10 +1,9 @@
-% TODO: Initialization of existing tables. sqlite_ tables are ignored.
-% TODO: Getting tables.
+The \gls{table_class} does not explicitly wrap any \gls{sqlite} object. It offers a number of convenient methods to create, drop and inspect the tables in a database.
 
 \subsection{Creating Tables}
 \label{section:tables:create}
 
-New tables can be created through the \code{createTable} method of the database. It returns a reference to a new \code{Table} instance. The table has a method to create new \code{Column}s. In turn, this object has some methods to set e.g. not null contraints. None of these functions actually run any SQL statements. This is done once you call the table's \code{commit} method.  A full example is shown in Listing~\ref{lst:tables:create}.
+New tables can be created through the \code{createTable} method of the database. It returns a reference to a new \gls{table_class} instance. The table has a method to create new \code{Column}s. In turn, this object has some methods to set e.g. not null contraints. None of these functions actually run any SQL statements. This is done once you call the table's \code{commit} method.  A full example is shown in Listing~\ref{lst:tables:create}.
 
 \lstinputlisting[caption={Creating a table.}, label={lst:tables:create}]{snippets/create_table.cpp}
 
@@ -16,11 +15,23 @@ Adding a foreign key column is straightforward. Just replace the type parameter 
 
 \lstinputlisting[caption={Creating a foreign key.}, label={lst:tables:fk}]{snippets/column_fk.cpp}
 
+Because no \code{CREATE TABLE} query is run until the \code{commit} method is called, any queries involving that table will obviously fail until that happens. Also, references to tables are only valid as long as the database object is not deallocated. When this deallocation happens, any uncommitted tables are lost.
+
 \subsection{Registering Tables}
 \label{section:tables:register}
 
-\subsection{Deleting Tables}
-\label{section:tables:delete}
+When a database is opened, the tables in that database are automatically registered. Note that this does not include all internal tables whose names starts with \code{sqlite\_}. To interact with those tables, you will have to use the C API. No functionality for this is exposed at a higher level.
+
+If a table is created without using the \code{createTable} method described above, for example by creating a \gls{statement_class} object with a \code{"CREATE TABLE"} query, the new table is not automatically registered. This must be done manually through the \code{registerTable} method of the \gls{database_class} class. See Listing~\ref{lst:tables:register}.
+
+\lstinputlisting[caption={Manually registering a table.}, label={lst:tables:register}]{snippets/register_table.cpp}
+
+\subsection{Dropping Tables}
+\label{section:tables:drop}
+
+Registered tables can be deleted using the \code{dropTable} method of the \gls{database_class}. This will run a \code{DROP TABLE} query. Note that any references to the \gls{table_class} instance are invalidated. See Listing~\ref{lst:tables:drop}.
+
+\lstinputlisting[caption={Dropping a table.}, label={lst:tables:drop}]{snippets/drop_table.cpp}
 
 \subsection{Typed Tables}
 \label{section:tables:typed}
