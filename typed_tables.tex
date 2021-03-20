@@ -1,0 +1,15 @@
+The \gls{table_class} class does not offer much in terms of type safety or extensive interfaces. For that, there is the \gls{typed_table_class} class. It can be constructed by passing it a normal table and allows you to specify a static type for each column. See Listing~\ref{lst:typed_tables:typed}.
+
+\lstinputlisting[caption={Creating a typed table.}, label={lst:typed_tables:typed}]{snippets/create_typed_table.cpp}
+
+The column types follow the same rules as column retrieval. See Section~\ref{section:statement:get}. If you pass an invalid type, an exception will be thrown directly upon construction.
+
+% TODO: Conversions between differently sized ints, nulls, etc, during all operations (select, insert, update, etc.).
+% Binding values: value (fixed) vs pointers (dynamic).
+% Order by: -col1 + col2 becomes ORDER BY col1 DESC, col2 ASC;
+% How do text and blobs work?
+
+\subsection{Filter}
+
+\subsection{Order By}
+
