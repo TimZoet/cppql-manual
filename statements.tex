@@ -1,7 +1,5 @@
 The \gls{statement_class} class is a wrapper around a \gls{sqlite} statement object. It has methods to prepare queries, bind parameters and retrieve results. Similar to the \gls{database_class}, it does not support all C API functions. Use the \code{get} method to retrieve the internal handle.
 
-%TODO: Say something about Result that is returned from most methods.
-
 \subsection{Preparing Statements}
 \label{section:statement:create}
 
@@ -73,7 +71,7 @@ If you wish to verify a column type before retrieving the value, call the \code{
 
 \lstinputlisting[caption={Getting a column's type.}, label={lst:statement:get_column_type}]{snippets/get_column_type.cpp}
 
-Blob values can be retrieved as (vectors of) arbitrary types. See Listing~\ref{lst:statement:get_column_blob}. %TODO: What kind of exceptions are thrown when sizes do not match?
+Blob values can be retrieved as (vectors of) arbitrary types. See Listing~\ref{lst:statement:get_column_blob}.
 
 \lstinputlisting[caption={Getting blob columns.}, label={lst:statement:get_column_blob}]{snippets/get_column_blob.cpp}
 

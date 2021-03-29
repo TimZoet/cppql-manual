@@ -14,13 +14,13 @@ The column types follow the same rules as column retrieval. See Section~\ref{sec
 
 The \code{INSERT}, \code{DELETE}, \code{SELECT} and \code{UPDATE} statements can all be constructed directly from a \gls{typed_table_class}. They all offer a C++ only interface to the underlying table. Each type of query is documented in a separate section.
 
-% TODO: Conversions between differently sized ints, nulls, etc, during all operations (select, insert, update, etc.).
-% Binding values: value (fixed) vs pointers (dynamic).
-% Order by: -col1 + col2 becomes ORDER BY col1 DESC, col2 ASC;
-% How do text and blobs work?
+% Conversions between differently sized ints, nulls, etc, during all operations (select, insert, update, etc.).
 % Query objects only valid as long as table they operate on is valid.
 
 \subsection{Filter}
 
+% Binding values: value (fixed) vs pointers (dynamic).
+
 \subsection{Order By}
 
+% Order by: -col1 + col2 becomes ORDER BY col1 DESC, col2 ASC;
