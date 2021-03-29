@@ -1,5 +1,13 @@
-// Create TypedTable from t, 
-// which should be a table with matching column types.
+// Create table.
+auto& t = db->createTable("myTable");
+t.createColumn<int32_t>("col1")
+    .setAutoIncrement(true)
+    .setPrimaryKey(true)
+    .setNotNull(true);
+t.createColumn...;
+t.commit();
+
+// Create typed table.
 sql::ext::TypedTable<int32_t, ...> table(t);
 
 // Prepare object to delete rows by primary key.

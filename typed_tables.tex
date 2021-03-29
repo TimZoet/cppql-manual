@@ -1,13 +1,24 @@
-The \gls{table_class} class does not offer much in terms of type safety or extensive interfaces. For that, there is the \gls{typed_table_class} class. It can be constructed by passing it a normal table and allows you to specify a static type for each column. See Listing~\ref{lst:typed_tables:typed}.
+The \gls{table_class} class does not offer much in terms of type safety or extensive interfaces. For that, there is the \gls{typed_table_class} class, which can be used to construct queries without actually writing any SQL code.
 
-\lstinputlisting[caption={Creating a typed table.}, label={lst:typed_tables:typed}]{snippets/create_typed_table.cpp}
+\subsection{Creating Typed Tables}
+\label{section:typed_tables:create}
+
+A \gls{typed_table_class} can be constructed by passing it a normal table and allows you to specify a static type for each column. See Listing~\ref{lst:typed_tables:create}.
+
+\lstinputlisting[caption={Creating a typed table.}, label={lst:typed_tables:create}]{snippets/create_typed_table.cpp}
 
 The column types follow the same rules as column retrieval. See Section~\ref{section:statement:get}. If you pass an invalid type, an exception will be thrown directly upon construction.
+
+\subsection{Queries}
+\label{section:typed_tables:queries}
+
+The \code{INSERT}, \code{DELETE}, \code{SELECT} and \code{UPDATE} statements can all be constructed directly from a \gls{typed_table_class}. They all offer a C++ only interface to the underlying table. Each type of query is documented in a separate section.
 
 % TODO: Conversions between differently sized ints, nulls, etc, during all operations (select, insert, update, etc.).
 % Binding values: value (fixed) vs pointers (dynamic).
 % Order by: -col1 + col2 becomes ORDER BY col1 DESC, col2 ASC;
 % How do text and blobs work?
+% Query objects only valid as long as table they operate on is valid.
 
 \subsection{Filter}
 

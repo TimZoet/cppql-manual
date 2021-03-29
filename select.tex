@@ -1,4 +1,4 @@
-To select rows in a table, you can construct a \code{Select} object from a typed table. This object holds a statement of the form \newline \code{SELECT <cols> FROM <table> WHERE <expr>}. See Listing~\ref{lst:select:create}.
+To select rows in a table, you can construct a \gls{select_one_class} object from a \gls{typed_table_class}. This object holds a statement of the form \newline \code{SELECT <cols> FROM <table> WHERE <expr>}. See Listing~\ref{lst:select:create}.
 
 \lstinputlisting[caption={Creating a select statement.}, label={lst:select:create}]{snippets/select_create.cpp}
 
@@ -23,3 +23,5 @@ It is also possible to use custom return types, instead of just tuples. To do so
 Since the \code{Select} class has a \code{begin} and \code{end} method, you can also directly construct e.g. a \code{std::vector} from it. See Listing~\ref{lst:select:to_container}.
 
 \lstinputlisting[caption={Constructing a vector from a select object.}, label={lst:select:to_container}]{snippets/select_to_container.cpp}
+
+%TODO: SelectOne, SelectAll.
