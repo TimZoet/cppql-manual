@@ -6,12 +6,19 @@ The insert object is callable with either separate values for each column, or a 
 
 \lstinputlisting[caption={Inserting new rows.}, label={lst:insert:call}]{snippets/insert_call.cpp}
 
-To insert the default value for a column, or to have e.g. primary keys properly auto increment, simply pass a \code{nullptr} instead of a value. See Listing~\ref{lst:insert:default}.
-
-\lstinputlisting[caption={Passing a nullptr to use default value for primary key.}, label={lst:insert:default}]{snippets/insert_default.cpp}
 
 To insert blobs, you must use the wrapper classes as described in Section~\ref{section:statement:bind}. See Listing~\ref{lst:insert:blob}.
 
 \lstinputlisting[caption={Inserting a blob.}, label={lst:insert:blob}]{snippets/insert_blob.cpp}
 
 A single insert object reuses the same prepared statement each time a row is added. It can be called any number of times. Multiple insert objects do not share this statement. To limit the number of times new statements are prepared, reuse the same insert object as much as you can.
+
+\subsection{Default Values}
+
+To insert the default value for a column, or to have e.g. primary keys properly auto increment, simply pass a \code{nullptr} instead of a value. See Listing~\ref{lst:insert:default}.
+
+\lstinputlisting[caption={Passing a nullptr to use default value for primary key.}, label={lst:insert:default}]{snippets/insert_default.cpp}
+
+It is also possible to specify the columns you wish to give an explicit value. See Listing~\ref{lst:insert:indices}.
+
+\lstinputlisting[caption={Limiting the columns for which to pass explicit values.}, label={lst:insert:indices}]{snippets/insert_indices.cpp}
