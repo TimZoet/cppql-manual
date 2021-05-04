@@ -1,4 +1,4 @@
-To select rows in a table, you can construct a \gls{select_one_class} object from a \gls{typed_table_class}. This object holds a statement of the form \newline \code{SELECT <cols> FROM <table> WHERE <expr>}. See Listing~\ref{lst:select:create}.
+To select rows in a table, you can construct a \gls{select_class} object from a \gls{typed_table_class}. This object holds a statement of the form \newline \code{SELECT <cols> FROM <table> WHERE <expr>}. See Listing~\ref{lst:select:create}.
 
 \lstinputlisting[caption={Creating a select statement.}, label={lst:select:create}]{snippets/select_create.cpp}
 
@@ -24,8 +24,20 @@ Since the \code{Select} class has a \code{begin} and \code{end} method, you can 
 
 \lstinputlisting[caption={Constructing a vector from a select object.}, label={lst:select:to_container}]{snippets/select_to_container.cpp}
 
-\subsection{SelectOne}
+\subsection{Select One}
 \label{section:select:one}
 
-\subsection{SelectAll}
+If you wish to construct a query that is expected to return exactly one row, there is the \code{selectOne} method. This method returns a callable object that directly produces a value instead of an iterator. If no or more than one rows match the query, an exception is thrown. See Listing~\ref{lst:select:select_one}.
+
+\lstinputlisting[caption={Retrieve exactly one row.}, label={lst:select:select_one}]{snippets/select_one.cpp}
+
+\subsection{Select All}
 \label{section:select:all}
+
+It is also possible to select all rows in a table with the \code{selectAll} method. This returns the same type of object as a normal select, just without a filter expression. See Listing~\ref{lst:select:select_all}.
+
+\lstinputlisting[caption={Retrieve all rows.}, label={lst:select:select_all}]{snippets/select_all.cpp}
+
+\subsection{Select Limit}
+\label{section:select:limit}
+
