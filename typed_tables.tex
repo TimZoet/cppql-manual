@@ -12,15 +12,30 @@ The column types follow the same rules as column retrieval. See Section~\ref{sec
 \subsection{Queries}
 \label{section:typed_tables:queries}
 
-The \code{INSERT}, \code{DELETE}, \code{SELECT} and \code{UPDATE} statements can all be constructed directly from a \gls{typed_table_class}. They all offer a C++ only interface to the underlying table. Each type of query is documented in a separate section.
+The \code{INSERT}, \code{DELETE}, \code{SELECT} and \code{UPDATE} statements can all be constructed directly from a \gls{typed_table_class}. Calling the various \code{select}, \code{insert}, etc. methods will return a reusable query object. All classes offer a C++ only interface to the underlying table. Query objects are valid as long as the table they operate on is valid. Each type of query is documented in a separate section.
 
-% Conversions between differently sized ints, nulls, etc, during all operations (select, insert, update, etc.).
-% Query objects only valid as long as table they operate on is valid.
+Filtering results, ordering rows, etc., can all be done by writing normal C++ expressions. The \code{col<size\_t>} method of \gls{typed_table_class} returns an object that represents a particular column. This object can be e.g. compared to some value to select all rows that have that value. Details are explained in the remaining subsections.
 
-\subsection{Filter}
+\subsection{Filtering}
 
-% Binding values: value (fixed) vs pointers (dynamic).
+For all queries that contain a \code{WHERE} clause, you can write a filter expression. Such an expression combines one or more column objects and comparisons to values. See Listing~\ref{lst:typed_tables:filter}.
+
+\lstinputlisting[caption={Using a filter expression.}, label={lst:typed_tables:filter}]{snippets/filter.cpp}
+
+The above example uses fixed parameters (note that fixed parameters include normal variables, not just constants known at compile time). It is also possible to use dynamic parameters. These values can be rebound to the statement between executions of the same query. Adding a dynamic parameter is done by using a pointer to a value. Note that the expression does not take ownership of the pointer. The referenced value should remain valid for the lifetime of the query object. See Listing~\ref{lst:typed_tables:filter_dynamic}.
+
+\lstinputlisting[caption={Dynamic parameters.}, label={lst:typed_tables:filter_dynamic}]{snippets/filter_dynamic.cpp}
 
 \subsection{Order By}
 
-% Order by: -col1 + col2 becomes ORDER BY col1 DESC, col2 ASC;
+For all queries that contain an \code{ORDER BY} clause, it is possible to write a simple expression using the column objects. To sort a column in ascending order, prepend it with the \code{+} operator. For descending order, use the \code{-} operator. See Listing~\ref{lst:typed_tables:order_by}.
+
+\lstinputlisting[caption={Ordering the results of a select query.}, label={lst:typed_tables:order_by}]{snippets/order_by.cpp}
+
+Note that you must explicitly add a \code{+} to the first column even when you want to order it in ascending order. Additionally, to concatenate two expressions within parentheses you must use the \code{+} operator. \code{-} does not merge them. It also doesn't reverse the order, so expressions such as \code{(+a) - (+b)} and \code{--a} are all invalid.
+
+\subsection{Limit and Offset}
+
+For all queries that contain a \code{LIMIT <X> OFFSET <Y>} clause, it is possible to use the \gls{limit_class} to control the number of returned rows. See Listing~\ref{lst:typed_tables:limit_offset}.
+
+\lstinputlisting[caption={Ordering the results of a select query.}, label={lst:typed_tables:limit_offset}]{snippets/limit_offset.cpp}
