@@ -2,7 +2,7 @@ To remove rows from a table, you can construct a \gls{delete_class} object from 
 
 \lstinputlisting[caption={Creating a delete statement.}, label={lst:delete:create}]{snippets/delete_create.cpp}
 
-The first parameter is the expression by which to filter. The second parameter indicates whether expression parameters should be bound immediately upon creation. After construction, the object can be invoked one or more times. See Listing~\ref{lst:delete:call}.
+The first parameter is the expression by which to \marginlabel{See Section~\ref{section:typed_tables:filter}.}filter. The second parameter indicates whether expression parameters should be bound immediately upon creation. After construction, the object can be invoked one or more times. See Listing~\ref{lst:delete:call}.
 
 \lstinputlisting[caption={Deleting multiple rows.}, label={lst:delete:call}]{snippets/delete_call.cpp}
 

@@ -17,6 +17,7 @@ The \code{INSERT}, \code{DELETE}, \code{SELECT} and \code{UPDATE} statements can
 Filtering results, ordering rows, etc., can all be done by writing normal C++ expressions. The \code{col<size\_t>} method of \gls{typed_table_class} returns an object that represents a particular column. This object can be e.g. compared to some value to select all rows that have that value. Details are explained in the remaining subsections.
 
 \subsection{Filtering}
+\label{section:typed_tables:filter}
 
 For all queries that contain a \code{WHERE} clause, you can write a filter expression. Such an expression combines one or more column objects and comparisons to values. See Listing~\ref{lst:typed_tables:filter}.
 
@@ -27,6 +28,7 @@ The above example uses fixed parameters (note that fixed parameters include norm
 \lstinputlisting[caption={Dynamic parameters.}, label={lst:typed_tables:filter_dynamic}]{snippets/filter_dynamic.cpp}
 
 \subsection{Order By}
+\label{section:typed_tables:order}
 
 For all queries that contain an \code{ORDER BY} clause, it is possible to write a simple expression using the column objects. To sort a column in ascending order, prepend it with the \code{+} operator. For descending order, use the \code{-} operator. See Listing~\ref{lst:typed_tables:order_by}.
 
@@ -35,7 +37,8 @@ For all queries that contain an \code{ORDER BY} clause, it is possible to write 
 Note that you must explicitly add a \code{+} to the first column even when you want to order it in ascending order. Additionally, to concatenate two expressions within parentheses you must use the \code{+} operator. \code{-} does not merge them. It also doesn't reverse the order, so expressions such as \code{(+a) - (+b)} and \code{--a} are all invalid.
 
 \subsection{Limit and Offset}
+\label{section:typed_tables:limit}
 
 For all queries that contain a \code{LIMIT <X> OFFSET <Y>} clause, it is possible to use the \gls{limit_class} to control the number of returned rows. See Listing~\ref{lst:typed_tables:limit_offset}.
 
-\lstinputlisting[caption={Ordering the results of a select query.}, label={lst:typed_tables:limit_offset}]{snippets/limit_offset.cpp}
+\lstinputlisting[caption={Limiting the results of a select query.}, label={lst:typed_tables:limit_offset}]{snippets/limit_offset.cpp}

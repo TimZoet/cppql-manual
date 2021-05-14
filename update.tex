@@ -1,0 +1,7 @@
+To update the rows in a table, you can construct an \gls{update_class} object from a \gls{typed_table_class}. This object holds a statement of the form \newline\code{UPDATE <table> SET <cols> = <vals>}. Its interface is very similar to the \gls{insert_class} class. See Listing~\ref{lst:update:create}.
+
+\lstinputlisting[caption={Creating an update statement.}, label={lst:update:create}]{snippets/update_create.cpp}
+
+The update object is callable with either separate values for each column, or a tuple. Optionally, you can pass a boolean parameter to indicate whether filter parameters should be rebound. See Listing~\ref{lst:update:call}.
+
+\lstinputlisting[caption={Updating rows.}, label={lst:update:call}]{snippets/update_call.cpp}
