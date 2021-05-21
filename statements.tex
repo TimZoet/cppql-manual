@@ -14,7 +14,7 @@ Once a statement is prepared, the \code{step} and \code{reset} methods can be ca
 \subsection{Binding Parameters}
 \label{section:statement:bind}
 
-The \code{sqlite3\_bind\_*} functions can all be called through methods on the \gls{statement_class} object. There is also a template method that can bind multiple parameters at once and is a bit more flexible in the types it accepts. Note that all these methods use 0-based indices, instead of the 1-based indices that the underlying C functions use.
+The \code{sqlite3\_bind\_*} functions can all be called through methods on the \gls{statement_class} object. There is also a template method that can bind multiple parameters at once and is a bit more flexible in the types it accepts. Depending on the \code{CPPQL\_BIND\_ZERO\_BASED\_INDICES} config variable, these methods use either 1-based or 0-based indices.
 
 The \code{bindInt}, \code{bindInt64}, \code{bindFloat}, \code{bindDouble} and \code{bindNull} methods are pretty self-explanatory. They directly pass on the value parameter to the appropriate C function. See Listing~\ref{lst:statement:bind_simple}.
 
@@ -31,6 +31,8 @@ To clear all bindings, call the \code{clearBindings} method.
 In addition to the various methods that only bind a single value, there is a template \code{bind} method that can take an arbitrary number of parameters of any type. The first parameter is the index of the first column to bind a value to. For each subsequent parameter, a call to the appropriate bind function is made. Binding integral and floating point types is a bit more flexible since \marginlabel{See Table~\ref{table:statement:mapping} for mapping.}automatic casts are performed. Binding text and blobs requires some more care. In order to distinguish between the various types of ownership, you must wrap a pointer in a \gls{text_class} or \gls{blob_class} object. There are several utility functions (e.g. \code{toStaticBlob}) to quickly put (vectors of) objects in wrappers. See Listing~\ref{lst:statement:bind_template}.
 
 \lstinputlisting[caption={Template bind method.}, label={lst:statement:bind_template}]{snippets/bind_template.cpp}
+
+You can also pass \code{std::optional} values to the template bind method. If the optional does not hold a value, the \code{bindNull} method is called for that parameter.
 
 \begin{table}[H]
 \caption{Mapping of input types and bind functions.}\label{table:statement:mapping}
