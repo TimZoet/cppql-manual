@@ -1,4 +1,19 @@
-cppql requires a compiler that supports C++20. It has been tested on Windows 10 and Ubuntu 20.04 with MSVC ? and GCC 11.
+cppql requires a compiler that supports C++20. It has been tested on:
+
+\begin{itemize}
+	\item Windows 10 with MSVC 19.28.
+	\item Ubuntu 20.04 with GCC 11.
+\end{itemize}
+
+\subsection{Dependencies}
+
+To build \gls{cppql} you must have several packages installed. On Windows, you could use \href{https://github.com/microsoft/vcpkg}{vcpkg} to install them. On Linux, \href{https://conan.io}{Conan}. Not all packages are required for all configurations. \code{cppql} is guaranteed to work with the following versions of these packages:
+
+\begin{itemize}
+	\item fmt 7.0.3\cite{fmt}. Always required. (To be replaced by C++20 fmt functions.)
+	\item nlohmann/json 3.9.1\cite{nlohmann}. Only required when building tests.
+	\item sqlite 3.35.0\cite{sqlite}. Always required.
+\end{itemize}
 
 \subsection{Getting The Code}
 \label{section:build:get}
@@ -12,19 +27,23 @@ cppql requires a compiler that supports C++20. It has been tested on Windows 10 
 
 There are several CMake configuration variables. Below an overview.
 
-\code{CPPQL\_BIND\_ZERO\_BASED\_INDICES} can be set to \code{ON} or \code{OFF}. When enabled, the various \code{bind} methods this library provides as wrappers around the C functions become 0-based. Note that this of course does not apply to any of the C functions, should you still use those.
+\code{CPPQL\_BIND\_ZERO\_BASED\_INDICES} can be set to \code{ON} or \code{OFF}. When enabled, the indices passed to the various \code{bind} methods this library provides as wrappers around the C functions become 0-based. Note that this of course does not apply to any of the C functions, should you still use those.
 
-\code{BUILD\_TESTS} can be set to \code{ON} or \code{OFF}. When enabled, an application containing tests is created. See \ref{section:build:tests} for more information.
+\code{BUILD\_TESTS} can be set to \code{ON} or \code{OFF}. When enabled, an application containing tests is created. See Section~\ref{section:build:tests} for more information.
 
 \subsection{Windows}
 \label{section:build:windows}
 
-% sqlite lib/dll part of repo.
+Assuming you just cloned the repository to a folder named source, you can configure and build using the commands shown in Listing~\ref{lst:build:windows}.
+
+\lstinputlisting[caption={Building on Windows using MSVC and vcpkg.}, label={lst:build:windows}, language=sh]{snippets/build_windows.cmd}
 
 \subsection{Linux}
 \label{section:build:linux}
 
-% Need to install libsqlite3-dev
+Assuming you just cloned the repository to a folder named source, you can configure and build using the commands shown in Listing~\ref{lst:build:linux}.
+
+\lstinputlisting[caption={Building on Linux using GCC and Conan.}, label={lst:build:linux}, language=sh]{snippets/build_linux.cmd}
 
 \subsection{Running Tests}
 \label{section:build:tests}
