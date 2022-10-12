@@ -1,1 +1,0 @@
-insert(nullptr, 10.0f, "abc"s);

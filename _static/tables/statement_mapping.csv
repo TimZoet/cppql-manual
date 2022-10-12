@@ -1,0 +1,15 @@
+Input Type,Conversion,Bind Function
+int32,none,bindInt
+int64,none,bindInt64
+double,none,bindDouble
+nullptr_t,none,bindNull
+uint32,bit_cast<int32>,bindInt
+(u)int(8|16),static_cast<int32>,bindInt
+uint64,bit_cast<int64>,bindInt64
+float,static_cast<double>,bindDouble
+Text,none,bindText
+StaticText,none,bindStaticText
+TransientText,none,bindTransientText
+Blob,none,bindBlob
+StaticBlob,none,bindStaticBlob
+TransientBlob,none,bindTransientBlob

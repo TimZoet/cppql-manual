@@ -1,5 +1,0 @@
-The \gls{database_class} class is a wrapper around a \gls{sqlite} database connection. Listing~\ref{lst:database:open} shows various ways in which a database file can be created and/or opened. There are several static methods that only require a path to a file and will return an opened (and possible newly created) database. Alternatively, you can directly construct a database from an already opened connection handle. Note that in all cases, the handle is managed by the database object. The connection is automatically closed when the object goes out of scope.
-
-\lstinputlisting[caption={Opening or creating a database.}, label={lst:database:open}]{snippets/open_database.cpp}
-
-At any time, you can retrieve the handle by calling the \code{get} method. Since this library does not have wrappers around all C API functions, you may find yourself using this method from time to time in order to call some of the more obscure \code{sqlite3\_} functions.
