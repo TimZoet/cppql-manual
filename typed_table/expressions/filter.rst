@@ -11,8 +11,8 @@ or more column objects and comparisons to values.
     auto col0 = table.col<0>();
     auto col1 = table.col<1>();
 
-    // Select all rows that match the expression.
-    ... = table.select(col0 > 10 && col1 <= 4.5f, true);
+    // Select all rows that match the expression. Immediately bind all parameters to the statement.
+    auto select = table.select(col0 > 10 && col1 <= 4.5f, sql::BindParameters::All);
 
 The above example uses fixed parameters (note that fixed parameters include normal variables, not just constants known
 at compile time). It is also possible to use dynamic parameters. These values can be rebound to the statement between
@@ -24,7 +24,7 @@ does not take ownership of the pointer. The referenced value should remain valid
     // A filter expression with dynamic parameters.
     int32_t param0 = 10;
     float   param1 = 4.5f;
-    ... = table.select(col0 > &param0 && col1 <= &param1, true);
+    auto select = table.select(col0 > &param0 && col1 <= &param1, sql::BindParameters::All);
 
     // Do stuff with query...
 
@@ -33,3 +33,7 @@ does not take ownership of the pointer. The referenced value should remain valid
     param1 = 13.33f;
 
     // Do more stuff with updated query...
+
+You will see that query objects that use expressions with parameters (e.g. select, delete) all support (re)binding
+parameters using the same :code:`sql::BindParameters` enum value. Typically, you'll want to bind any fixed parameters
+directly on construction, but dynamic parameters only just before they are used. This should give the best performance.

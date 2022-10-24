@@ -13,11 +13,9 @@ holds a statement of the form :code:`SELECT <cols> FROM <table> WHERE <expr>`.
 
     // Prepare object to select first 2 columns of all rows
     // where 2nd column is in the range 10-20.
-    auto select = table.select<0, 1>(col1 >= 10 && col1 <= 20, true);
+    auto select = table.select<0, 1>(col1 >= 10 && col1 <= 20, sql::BindParameters::All);
 
-The first parameter is the expression by which to filter. The second parameter indicates whether expression parameters
-should be bound immediately upon creation. After construction, the object can be iterated over one or more times to
-retrieve the results.
+After construction, the object can be iterated over one or more times to retrieve the results.
 
 .. code-block:: cpp
 
@@ -28,8 +26,18 @@ retrieve the results.
     }
 
 Iterating over the select object will first reset the statement. If you want to (re)bind parameters, call
-:code:`operator(true)` before iteration. Since this operator returns a reference to the select object itself, you can
-e.g. use it in a range based for loop: :code:`for (auto row : select(true)){...}`.
+:code:`operator(sql::BindParameter)` before iteration. Since this operator returns a reference to the select object
+itself, you can e.g. use it in a range based for loop: :code:`for (auto row : select(true)){...}`.
+
+.. code-block:: cpp
+
+    // Run.
+    for (auto row : select(sql::BindParameters::Dynamic)){...}
+    
+    // Update parameters...
+
+    // Run again.
+    for (auto row : select(sql::BindParameters::Dynamic)){...}
 
 Some notes on the internal implementation details. Calling the :code:`begin` method will run :code:`sqlite3_step` and
 return an iterator. Each time the iterator is incremented, :code:`sqlite3_step` is called. The :code:`end` method
@@ -75,15 +83,15 @@ match the query, an exception is thrown.
 
     // Prepare object to select exactly one row by ID.
     int32_t id = 0;
-    auto selectOne = table.selectOne(col0 == &id, false);
+    auto selectOne = table.selectOne(col0 == &id, sql::BindParameters::All);
 
     // Update parameter and select first row.
     id = 1;
-    auto row0 = selectOne(true);
+    auto row0 = selectOne(sql::BindParameters::All);
 
     // Update parameter and select second row.
     id = 2;
-    auto row1 = selectOne(true);
+    auto row1 = selectOne(sql::BindParameters::All);
 
 Select All
 ----------
@@ -97,11 +105,23 @@ object as a normal select, just without a filter expression.
     auto selectAll = table.selectAll();
 
     // Iterate over results.
-    for (auto row : selectAll())
+    for (auto row : selectAll)
         ...
 
 Order By, Limit and Offset
 --------------------------
 
-All select methods (except of course :code:`selectOne`) support the ordering and limiting off results.
-See Section~\ref{section:typed_tables:order} and Section~\ref{section:typed_tables:limit}.
+All select statements (with the exception of :code:`selectOne`) support the :doc:`/typed_table/expressions/order_by`
+and :doc:`/typed_table/expressions/limit_offset` expressions.
+
+.. code-block:: cpp
+
+    sql::TypedTable<int32_t, float> table(...);
+
+    // This query will select all rows...
+    auto select = table.select(
+        table.col<1>() >= 10.0f,              // with col1 >= 10.0f
+        -table.col<1>(),                      // ordered by col1 DESC
+        sql::LimitExpression{.offset = 10},   // skipping the first 10
+        sql::BindParameters::All
+    );

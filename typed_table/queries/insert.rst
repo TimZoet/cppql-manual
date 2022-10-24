@@ -7,7 +7,7 @@ object holds a statement of the form :code:`INSERT INTO <table> VALUES <vals>`.
 .. code-block:: cpp
 
     // Create typed table.
-    sql::TypedTable<int64_t, float, std::string> table(...);
+    sql::TypedTable<int64_t, float> table(...);
 
     // Create insert statement.
     auto insert = table.insert();
@@ -17,13 +17,13 @@ The insert object is callable with either separate values for each column, or a 
 .. code-block:: cpp
 
     // Insert separate values.
-    insert(1, 10.0f, "abc"s);
+    insert(1, 10.0f);
 
     // Insert tuple.
-    auto row = std::make_tuple<int64_t, float, std::string>(2, 20.0f, "def"s);
+    auto row = std::make_tuple<int64_t, float>(2, 20.0f);
     insert(row);
 
-To insert blobs, you must use the wrapper classes as described in Section~\ref{section:statement:bind}.
+To insert text and blobs, you must use the wrapper classes as described :ref:`here <binding_parameters>`.
 
 .. code-block:: cpp
 
@@ -35,10 +35,6 @@ To insert blobs, you must use the wrapper classes as described in Section~\ref{s
     std::vector<float> floats = {1.0f, 2.0f, 3.0f};
     insert(nullptr, sql::toStaticBlob(floats));
 
-A single insert object reuses the same prepared statement each time a row is added. It can be called any number of
-times. Multiple insert objects do not share this statement. To limit the number of times new statements are prepared,
-reuse the same insert object as much as you can.
-
 Default Values
 --------------
 
@@ -47,17 +43,17 @@ To insert the default value for a column, or to have e.g. primary keys properly 
 
 .. code-block:: cpp
 
-    insert(nullptr, 10.0f, "abc"s);
+    insert(nullptr, 10.0f);
 
 It is also possible to specify the columns you wish to give an explicit value.
 
 .. code-block:: cpp
 
     // Specify just one column.
-    auto insert = table.insert<2>();
+    auto insert = table.insert<1>();
 
-    // Insert string and use default values for rest.
-    insert("mnop");
+    // Insert float and use default values for rest.
+    insert(30.0f);
 
     // Specify 0 columns.
     auto insert2 = table.insert<>();

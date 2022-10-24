@@ -8,11 +8,10 @@ For all queries that contain a :code:`LIMIT <X> OFFSET <Y>` clause, it is possib
 
     // Assuming some table with an int column.
     sql::TypedTable<int32_t> table(...);
-    auto col0 = table.col<0>();
 
-    // Select first 10 rows that match filter.
-    ... = table.select(
-        col0 >= 33,
-        sql::LimitExpression{.limit = 10},
-        true
+    // Select 10 rows that match filter, skipping the first 5.
+    auto select = table.select(
+        table.col<0>() >= 33,
+        sql::LimitExpression{.limit = 10, .offset = 5},
+        sql::BindParameters::All
     );

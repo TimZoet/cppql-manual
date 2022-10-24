@@ -8,7 +8,6 @@ cppql
 
     core
     typed_table
-    queries
     error_handling
 
 :code:`cppql` is a C++ library that wraps around the sqlite C API. It offers multiple levels of abstraction.

@@ -33,6 +33,8 @@ database went out of scope will result in unpredictable behaviour.
 Once a statement is prepared, the :code:`step` and :code:`reset` methods can be called. These correspond directly to the
 :code:`sqlite3_step` and :code:`sqlite3_reset` C functions.
 
+.. _binding_parameters:
+
 Binding Parameters
 ------------------
 
