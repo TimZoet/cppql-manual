@@ -12,7 +12,12 @@ or more column objects and comparisons to values.
     auto col1 = table.col<1>();
 
     // Select all rows that match the expression. Immediately bind all parameters to the statement.
-    auto select = table.select(col0 > 10 && col1 <= 4.5f, sql::BindParameters::All);
+    auto select = table.select(
+        col0 > 10 && col1 <= 4.5f,
+        std::nullopt,
+        std::nullopt,
+        sql::BindParameters::All
+    );
 
 The above example uses fixed parameters (note that fixed parameters include normal variables, not just constants known
 at compile time). It is also possible to use dynamic parameters. These values can be rebound to the statement between
@@ -24,7 +29,12 @@ does not take ownership of the pointer. The referenced value should remain valid
     // A filter expression with dynamic parameters.
     int32_t param0 = 10;
     float   param1 = 4.5f;
-    auto select = table.select(col0 > &param0 && col1 <= &param1, sql::BindParameters::All);
+    auto select = table.select(
+        col0 > &param0 && col1 <= &param1,
+        std::nullopt,
+        std::nullopt,
+        sql::BindParameters::All
+    );
 
     // Do stuff with query...
 

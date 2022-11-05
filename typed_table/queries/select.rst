@@ -2,8 +2,7 @@ Select
 ======
 
 To select rows in a table, you can construct a :code:`sql::Select` object from a :code:`sql::TypedTable`. This object
-holds a statement of the form :code:`SELECT <cols> FROM <table> WHERE <expr>`.
-
+holds a statement of the form :code:`SELECT <cols> FROM <table> WHERE <expr> ORDER BY <expr> LIMIT <val> OFFSET <val>`.
 
 .. code-block:: cpp
 
@@ -11,9 +10,13 @@ holds a statement of the form :code:`SELECT <cols> FROM <table> WHERE <expr>`.
     sql::TypedTable<int32_t, float, ...> table(...);
     const auto col1 = table.col<1>();
 
-    // Prepare object to select first 2 columns of all rows
-    // where 2nd column is in the range 10-20.
-    auto select = table.select<0, 1>(col1 >= 10 && col1 <= 20, sql::BindParameters::All);
+    // Prepare object to select first 2 columns of all rows where 2nd column is in the range 10-20.
+    auto select = table.select<0, 1>(
+        col1 >= 10 && col1 <= 20,
+        std::nullopt,
+        std::nullopt,
+        sql::BindParameters::All
+    );
 
 After construction, the object can be iterated over one or more times to retrieve the results.
 
@@ -27,7 +30,8 @@ After construction, the object can be iterated over one or more times to retriev
 
 Iterating over the select object will first reset the statement. If you want to (re)bind parameters, call
 :code:`operator(sql::BindParameter)` before iteration. Since this operator returns a reference to the select object
-itself, you can e.g. use it in a range based for loop: :code:`for (auto row : select(true)){...}`.
+itself, you can e.g. use it in a range based for loop:
+:code:`for (auto row : select(sql::BindParameters::Dynamic)){...}`.
 
 .. code-block:: cpp
 
@@ -42,6 +46,14 @@ itself, you can e.g. use it in a range based for loop: :code:`for (auto row : se
 Some notes on the internal implementation details. Calling the :code:`begin` method will run :code:`sqlite3_step` and
 return an iterator. Each time the iterator is incremented, :code:`sqlite3_step` is called. The :code:`end` method
 returns a dummy iterator value. The end of the sequence is determined using the return code of :code:`sqlite3_step`.
+
+To select all rows in a table, pass :code:`std::nullopt` in place of a filter expression.
+
+.. code-block:: cpp
+
+    auto selectAll = table.select(std::nullopt, std::nullopt, std::nullopt, sql::BindParameters::None);
+    for (auto row : selectAll){...}
+
 
 Custom Return Types
 -------------------
@@ -93,21 +105,6 @@ match the query, an exception is thrown.
     id = 2;
     auto row1 = selectOne(sql::BindParameters::All);
 
-Select All
-----------
-
-It is also possible to select all rows in a table with the :code:`selectAll` method. This returns the same type of
-object as a normal select, just without a filter expression.
-
-.. code-block:: cpp
-
-    // Prepare object to select all rows.
-    auto selectAll = table.selectAll();
-
-    // Iterate over results.
-    for (auto row : selectAll)
-        ...
-
 Order By, Limit and Offset
 --------------------------
 
@@ -121,7 +118,7 @@ and :doc:`/typed_table/expressions/limit_offset` expressions.
     // This query will select all rows...
     auto select = table.select(
         table.col<1>() >= 10.0f,              // with col1 >= 10.0f
-        -table.col<1>(),                      // ordered by col1 DESC
+        sql::descending(table.col<1>()),      // ordered by col1 DESC
         sql::LimitExpression{.offset = 10},   // skipping the first 10
         sql::BindParameters::All
     );

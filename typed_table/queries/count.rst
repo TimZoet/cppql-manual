@@ -19,5 +19,10 @@ pass a parameter to indicate whether fixed or dynamic filter parameters should b
 
     count = count(sql::BindParameters::Dynamic);
 
-The :code:`countAll` method of the :code:`sql::TypedTable` can be used to count all rows in a table, without a filter
-expression.
+To count all rows in a table, pass :code:`std::nullopt` in place of a filter expression.
+
+.. code-block:: cpp
+
+    // Count all rows
+    auto countAll = table.count(std::nullopt, sql::BindParameters::None);
+    const auto rowCount = countAll();
