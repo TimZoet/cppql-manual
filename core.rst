@@ -9,4 +9,5 @@ Core
     core/database
     core/table
     core/statement
+    core/typed_table
 

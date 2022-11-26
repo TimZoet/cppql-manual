@@ -6,9 +6,9 @@ Expressions
     :titlesonly:
     :hidden:
 
-    expressions/filter
-    expressions/order_by
-    expressions/limit_offset
+    expressions/parameters
+    expressions/aggregates
+    expressions/ordering
 
 To create filters, order result rows, etc. you can write various expressions. Most of these expressions are made up of
 :code:`sql::ColumnExpression` objects, combined with various operators to e.g. filter the results of a selection based

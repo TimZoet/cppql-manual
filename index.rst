@@ -7,8 +7,9 @@ cppql
     :hidden:
 
     core
-    typed_table
-    error_handling
+    queries
+    statements
+    expressions
 
 :code:`cppql` is a C++ library that wraps around the sqlite C API. It offers multiple levels of abstraction.
 
