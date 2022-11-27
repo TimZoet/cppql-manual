@@ -11,3 +11,4 @@ Core
     core/statement
     core/typed_table
 
+There is some core functionality for the management of database connections, tables and statements.

@@ -1,5 +1,5 @@
-Typed Tables
-============
+Typed Table
+===========
 
 The :code:`sql::Table` class does not offer much in terms of type safety or extensive interfaces. For that, there is
 the :code:`sql::TypedTable` class, which can be used to construct queries without actually writing any SQL code. It can
