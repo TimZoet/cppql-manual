@@ -9,6 +9,7 @@ Core
     core/database
     core/table
     core/statement
+    core/transaction
     core/typed_table
 
 There is some core functionality for the management of database connections, tables and statements.
