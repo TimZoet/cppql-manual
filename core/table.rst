@@ -21,10 +21,9 @@ call the table's :code:`commit` method.
     auto& c3 = table.createColumn("c3", sql::Column::Type::Text);
     auto& c4 = table.createColumn("c3", sql::Column::Type::Blob);
 
-    // Mark one of the columns as the primary key.
-    c1.setPrimaryKey(true);
-    c1.setNotNull(true);
-    c1.setAutoIncrement(true);
+    // Mark one of the columns as the primary key with auto increment.
+    c1.primaryKey(true, sql::ConflictClause::Rollback);
+    c1.notNull(sql::ConflictClause::Rollback);
 
     // Run CREATE TABLE statement.
     table.commit();
@@ -34,9 +33,9 @@ Since the :code:`createColumn` and :code:`set` methods all return a reference to
 .. code-block:: cpp
 
     table.createColumn("col1", sql::Column::Type::Int)
-       .setPrimaryKey(true)
-       .setNotNull(true)
-       .setAutoIncrement(true);
+         .primaryKey()
+         .notNull()
+         .check("col1 > 10");
 
 Adding a foreign key column is straightforward. Just replace the type parameter by another column object.
 
